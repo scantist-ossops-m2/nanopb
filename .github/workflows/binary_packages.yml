@@ -45,6 +45,8 @@ jobs:
       - name: Test binary package
         run: |
           tar xzf nanopb/dist/*.tar.gz
+          ldd nanopb-*/generator-bin/nanopb_generator || echo fail
+          ldd nanopb-*/generator-bin/_internal/libpython* || echo fail2
           cd nanopb-*/tests
           python3 -m SCons
 
