@@ -583,11 +583,11 @@ static bool checkreturn decode_pointer_field(pb_istream_t *stream, pb_wire_type_
                 size_t *size = (size_t*)iter->pSize;
                 void *pItem;
                 
-                if (!allocate_field(stream, iter->pData, iter->pos->data_size, (size_t)(*size + 1)))
+                (*size)++;
+                if (!allocate_field(stream, iter->pData, iter->pos->data_size, *size))
                     return false;
             
-                pItem = *(uint8_t**)iter->pData + iter->pos->data_size * (*size);
-                (*size)++;
+                pItem = *(uint8_t**)iter->pData + iter->pos->data_size * (*size - 1);
                 initialize_pointer_field(pItem, iter);
                 return func(stream, iter->pos, pItem);
             }
